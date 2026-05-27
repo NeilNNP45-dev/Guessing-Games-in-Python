@@ -10,22 +10,27 @@ while True:
     print("3. Quit")
     choice = input("Enter your choice (1, 2, or 3): ")
     total_points = 0 # starting the points with 0, after each win points will be added to this variable.
+    wins = 0 # this variable will keep track of the number of wins the player has, after each win it will be increased by 1 and 10 points will be added to total_points for each win.
     if choice == "1":
         # number guessing game code will go here
         print("welcome to the Number Guessing Game! Hope you are lucky enough to guess the number!")
         attempts = 3
         secret_number = 45 # for now as i dont know if i can even generate a random number so i'll just set it as my favourite number.
         for i in range(attempts):
-            guess = int(input("Enter your guess. It is a two-digit number: "))
+            guess = int(input("Enter your guess. Upto 3 guesses allowed. It is a two-digit number: "))
             if guess == secret_number:
                 print("Congratulations! You guessed the number!")
-                total_points += 10 # adding 10 points for winning the number guessing game.
+                wins += 1
                 break
             elif guess < secret_number:
                 print("Too low! Try again.")
             else:
                 print("Too high! Try again.")
-             
+            break
+        wins += 1
+        print(f"You won {wins} games!")
+        total_points = wins * 10 
+        print(f"Your total points: {total_points}")
 
 
          
@@ -39,4 +44,7 @@ while True:
         break
     else:
         print("Invalid choice. Please try again.")
+
+print(f"You won {wins} games!")
+total_points = wins * 10 
 print(f"Your total points: {total_points}")
