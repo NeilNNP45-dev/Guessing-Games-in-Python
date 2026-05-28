@@ -36,7 +36,20 @@ while True:
     elif choice == "2":
         # word guessing game code will go here
         print("Welcome to the Word Guessing Game! Try to guess the secret word!")
-        print("This game will be available soon!")
+        attempt = 5
+        secret_word = "python" # again, setting a secret word for now as i dont know how to generate a random word.
+        for i in range(attempt):
+            guess = input("Enter your guess. Upto 5 guesses allowed: ")
+            if guess.lower() == secret_word:
+                print("Congratulations! You guessed the word!")
+                wins += 1
+                break
+            else:
+                print("Wrong guess! Try again.") 
+        print(f"You won {wins} games!")
+        total_points = wins * 10 
+        print(f"Your total points: {total_points}")      
+        
         pass
     elif choice == "3":
         print("Thanks for playing! Goodbye!")
