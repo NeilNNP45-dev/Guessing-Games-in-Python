@@ -3,14 +3,14 @@
 # this will have 4 parts. The main menu, the number guessing game, the word guessing game and a points system.
 # for the main menu i will use a while true loop so the player can keep replaying as long as they want and quit whenever they want.
 #starting main menu
+total_points = 0
+wins = 0
 while True:
     print("Welcome to the arcade! Please select a game to play:")
     print("1. Number Guessing Game")
     print("2. Word Guessing Game")
     print("3. Quit")
     choice = input("Enter your choice (1, 2, or 3): ")
-    total_points = 0 # starting the points with 0, after each win points will be added to this variable.
-    wins = 0 # this variable will keep track of the number of wins the player has, after each win it will be increased by 1 and 10 points will be added to total_points for each win.
     if choice == "1":
         # number guessing game code will go here
         print("welcome to the Number Guessing Game! Hope you are lucky enough to guess the number!")
@@ -27,8 +27,7 @@ while True:
             else:
                 print("Too high! Try again.")
             break
-        wins += 1
-        print(f"You won {wins} games!")
+        print(f"You won {wins} games!") # need to fix this so it keeps track of wins across multiple games, currently it resets to 0 every time the player chooses a game.
         total_points = wins * 10 
         print(f"Your total points: {total_points}")
 
