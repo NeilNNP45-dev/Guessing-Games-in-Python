@@ -29,17 +29,14 @@ while True:
                 break
             elif guess < secret_number:
                 print("Too low! Try again.")
-                print("Wrong guess! Try again.")
                 print(f"You have {attempts - i - 1} guesses left.")
             
             else:
-                guess > secret_number
                 print("Too high! Try again.")
-                print("Wrong guess! Try again.")
                 print(f"You have {attempts - i - 1} guesses left.")
             if i == attempts - 1:
                 print(f"Sorry, you've used all your attempts! The secret number was: {secret_number}")    
-        print(f"You won {wins} games!") # need to fix this so it keeps track of wins across multiple games, currently it resets to 0 every time the player chooses a game.
+        print(f"You won {wins} games!") 
         total_points = wins * 10 
         print(f"Your total points: {total_points}")
 
@@ -59,7 +56,7 @@ while True:
                 break
             else: 
                 print("Wrong guess! Try again.")
-                print(f"You have {attempts - i - 1} guesses left.")
+                print(f"You have {attempt - i - 1} guesses left.")
                 if i == 0:
                     print("Hint: The word starts with the letter " + secret_word[0])
                 elif i == 1:
