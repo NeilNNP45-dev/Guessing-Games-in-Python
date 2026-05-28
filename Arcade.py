@@ -3,6 +3,7 @@
 # this will have 4 parts. The main menu, the number guessing game, the word guessing game and a points system.
 # for the main menu i will use a while true loop so the player can keep replaying as long as they want and quit whenever they want.
 #starting main menu
+import random
 total_points = 0
 wins = 0
 while True:
@@ -14,19 +15,30 @@ while True:
     if choice == "1":
         # number guessing game code will go here
         print("welcome to the Number Guessing Game! Hope you are lucky enough to guess the number!")
-        attempts = 3
-        secret_number = 45 # for now as i dont know if i can even generate a random number so i'll just set it as my favourite number.
+        attempts = 5
+        secret_number = random.randint(10,99)
         for i in range(attempts):
-            guess = int(input("Enter your guess. Upto 3 guesses allowed. It is a two-digit number: "))
+            try:
+                guess = int(input("Enter your guess. Upto 5 guesses allowed. It is a two-digit number: "))
+            except ValueError:
+                print("Please enter a valid number.")
+                continue
             if guess == secret_number:
                 print("Congratulations! You guessed the number!")
                 wins += 1
                 break
             elif guess < secret_number:
                 print("Too low! Try again.")
+                print("Wrong guess! Try again.")
+                print(f"You have {attempts - i - 1} guesses left.")
+            
             else:
+                guess > secret_number
                 print("Too high! Try again.")
-            break
+                print("Wrong guess! Try again.")
+                print(f"You have {attempts - i - 1} guesses left.")
+            if i == attempts - 1:
+                print(f"Sorry, you've used all your attempts! The secret number was: {secret_number}")    
         print(f"You won {wins} games!") # need to fix this so it keeps track of wins across multiple games, currently it resets to 0 every time the player chooses a game.
         total_points = wins * 10 
         print(f"Your total points: {total_points}")
@@ -37,15 +49,27 @@ while True:
         # word guessing game code will go here
         print("Welcome to the Word Guessing Game! Try to guess the secret word!")
         attempt = 5
-        secret_word = "python" # again, setting a secret word for now as i dont know how to generate a random word.
+        word_list = ["ninja", "kitty", "robot", "alien", "mages"]
+        secret_word = random.choice(word_list)
         for i in range(attempt):
             guess = input("Enter your guess. Upto 5 guesses allowed: ")
             if guess.lower() == secret_word:
                 print("Congratulations! You guessed the word!")
                 wins += 1
                 break
-            else:
-                print("Wrong guess! Try again.") 
+            else: 
+                print("Wrong guess! Try again.")
+                print(f"You have {attempts - i - 1} guesses left.")
+                if i == 0:
+                    print("Hint: The word starts with the letter " + secret_word[0])
+                elif i == 1:
+                    print("Hint: The word has " + str(len(secret_word)) + " letters.")  
+                elif i == 2:
+                    print("Hint: The word ends with the letter " + secret_word[-1])
+                elif i == 3:
+                    print("Hint: The word has the letter " + secret_word[1])                    
+                if i == attempt - 1:
+                    print(f"Sorry, you've used all your attempts! The secret word was: {secret_word}")
         print(f"You won {wins} games!")
         total_points = wins * 10 
         print(f"Your total points: {total_points}")      
