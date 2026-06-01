@@ -37,14 +37,14 @@ def number_guessing_game(wins,total_points):
     print(f"You won {wins} games!") 
     total_points = wins * 10 
     print(f"Your total points: {total_points}")
-    print("*************************************************")
-    return wins, total_points
-def word_guessing_game(wins,total_points): 
+    print("*****************************************************")
+    return wins
+def word_guessing_game(wins,total_points):
 
-        # word guessing game code will go here
-    print("*************************************************")
+        
+    print("*****************************************************************")
     print("Welcome to the Word Guessing Game! Try to guess the secret word!")
-    print("--------------------------------------------------")
+    print("------------------------------------------------------------------")
 
     attempt = 5
     word_list = ["ninja", "kitty", "robot", "alien", "mages"]
@@ -52,54 +52,54 @@ def word_guessing_game(wins,total_points):
     for i in range(attempt):
             guess = input("Enter your guess. Upto 5 guesses allowed: ")
             if guess.lower() == secret_word:
-                print("Congratulations! You guessed the word!")
-                print("--------------------------------------------------")
-                wins += 1
-                break
+             print("Congratulations! You guessed the word!")
+             print("------------------------------------------")
+             wins += 1
+             break
             else: 
-                print("Wrong guess! Try again.")
-                print(f"You have {attempt - i - 1} guesses left.")
-                print("--------------------------------------------------")
-                if i == 0:
+             print("Wrong guess! Try again.")
+             print(f"You have {attempt - i - 1} guesses left.")
+             print("------------------------------------------")
+             if i == 0:
                     print("Hint: The word starts with the letter " + secret_word[0])
-                    print("--------------------------------------------------")
-                elif i == 1:
+                    print("------------------------------------------")
+             elif i == 1:
                     print("Hint: The word has " + str(len(secret_word)) + " letters.")  
-                    print("--------------------------------------------------")
-                elif i == 2:
+                    print("------------------------------------------")
+             elif i == 2:
                     print("Hint: The word ends with the letter " + secret_word[-1])
-                    print("--------------------------------------------------") 
-                elif i == 3:
+                    print("------------------------------------------")
+             elif i == 3:
                     print("Hint: The word has the letter " + secret_word[1]) 
-                    print("--------------------------------------------------")                   
-                if i == attempt - 1:
+                    print("------------------------------------------")               
+             if i == attempt - 1:
                     print(f"Sorry, you've used all your attempts! The secret word was: {secret_word}") 
-                    print("--------------------------------------------------")     
+                    print("-------------------------------------------------------------------")     
     print(f"You won {wins} games!")
     total_points = wins * 10 
     print(f"Your total points: {total_points}")    
-    print("*************************************************")  
-    return wins, total_points
+    print("*****************************************************")  
+    return wins
 while True:
-    print("*************************************************")
+    print("*****************************************************")
     print("Welcome to the arcade! Please select a game to play:")
     print("1. Number Guessing Game")
     print("2. Word Guessing Game")
     print("3. Quit")
-    print("*************************************************") 
+    print("*****************************************************") 
     choice = input("Enter your choice (1, 2, or 3): ")
     if choice == "1":
-        wins, total_points = number_guessing_game(wins, total_points)
+        wins = number_guessing_game(wins, total_points)
     elif choice == "2":
-        wins, total_points = word_guessing_game(wins, total_points) 
+        wins = word_guessing_game(wins, total_points) 
     elif choice == "3":
         print("Thanks for playing! Goodbye!")
         break
     else:
         print("Invalid choice. Please pick a valid option.")
 
-print("*************************************************")
+print("*****************************************************")
 print(f"You won {wins} games!")
 total_points = wins * 10 
 print(f"Your total points: {total_points}")
-print("*************************************************")
+print("******************************************************")
