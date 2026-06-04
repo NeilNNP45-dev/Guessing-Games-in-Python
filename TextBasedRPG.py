@@ -34,27 +34,24 @@ class Character:
             elif action == '2':
                 if  player.used_strong_last_turn == True:
                     print(f"{player.name} cannot use strong attack this turn!")
-                    
+                
                 elif player.strong_attack(enemy):
                     player.used_strong_last_turn = True
-                    continue
-            else:
-                print("Invalid action. Please choose again.")
+                else:
+                    print("Invalid action. Please choose again.")
                 continue
 
             if enemy.health <= 0:
                 print(f"{enemy.name} has been defeated! You win!")
                 break
 
-            while enemy.health > 0:
-             enemy_action = random.choice(['normal', 'strong'])
+            enemy_action = random.choice(['normal', 'strong'])
             if enemy_action == 'strong' and not enemy.used_strong_last_turn == True:
                 enemy.strong_attack(player)
 
             else:
                 enemy.normal_attack(player)
-                continue
-                
+                enemy.used_strong_last_turn = False
 
         if player.health <= 0:
           print(f"{player.name} has been defeated! Game Over!")
