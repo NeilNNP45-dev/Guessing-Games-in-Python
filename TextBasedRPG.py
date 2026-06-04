@@ -39,7 +39,7 @@ class Character:
                     player.used_strong_last_turn = True
                 else:
                     print("Invalid action. Please choose again.")
-                continue
+                
 
             if enemy.health <= 0:
                 print(f"{enemy.name} has been defeated! You win!")
