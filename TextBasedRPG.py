@@ -40,8 +40,7 @@ class Character:
                     
             else:
                 print("Invalid action. Please choose again.")
-               
-            
+                continue            
 
             if enemy.health <= 0:
                 print(f"{enemy.name} has been defeated! You win!")
@@ -57,9 +56,18 @@ class Character:
 
         if player.health <= 0:
           print(f"{player.name} has been defeated! Game Over!")
-                
+
+environments = {
+    "Forest": {"Goblin": 80, "Orc": 100, "Skeleton": 60},
+    "Dungeon": {"Goblin": 60, "Orc": 120, "Skeleton": 80},
+    "Cave": {"Goblin": 70, "Orc": 90, "Skeleton": 100}
+}
+env = random.choice(list(environments.keys()))
+enemies = random.choice(list(environments[env].keys()))
+print(f"You find yourself in a {env}.")
 player_name = input("Enter your character's name: ")
 player = Character(player_name, 100)
-enemy = Character("Goblin", 80)
+enemy_name = random.choice(list(environments[env].keys()))
+enemy = Character(enemy_name, environments[env][enemy_name])
 print(f"\nA wild {enemy.name} appears!")
 Character.battle(player, enemy)
