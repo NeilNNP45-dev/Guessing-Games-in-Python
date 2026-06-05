@@ -34,12 +34,14 @@ class Character:
             elif action == '2':
                 if  player.used_strong_last_turn == True:
                     print(f"{player.name} cannot use strong attack this turn!")
-                
+                    continue
                 elif player.strong_attack(enemy):
                     player.used_strong_last_turn = True
-                else:
-                    print("Invalid action. Please choose again.")
-                
+                    
+            else:
+                print("Invalid action. Please choose again.")
+               
+            
 
             if enemy.health <= 0:
                 print(f"{enemy.name} has been defeated! You win!")
