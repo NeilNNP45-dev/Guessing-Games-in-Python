@@ -63,9 +63,16 @@ environments = {
     "Cave": {"Goblin": 70, "Orc": 90, "Skeleton": 100}
 }
 env = random.choice(list(environments.keys()))
-enemies = random.choice(list(environments[env].keys()))
 print(f"You find yourself in a {env}.")
 player_name = input("Enter your character's name: ")
+classes = input("Choose your class (1: Warrior, 2: Mage, 3: Archer): ")
+if classes == '1':
+    player = Character(player_name, 120)
+elif classes == '2':
+    player = Character(player_name, 80)
+elif classes == '3':
+    player = Character(player_name, 100)
+
 player = Character(player_name, 100)
 enemy_name = random.choice(list(environments[env].keys()))
 enemy = Character(enemy_name, environments[env][enemy_name])
