@@ -1,8 +1,9 @@
 import random
 class Character:
-    def __init__(self, name, health, normal_min=5, normal_max=10, strong_min=15, strong_max=25, crit_chance = 10, crit_multiplier = 2):
+    def __init__(self, name, health, max_health, normal_min=5, normal_max=10, strong_min=15, strong_max=25, crit_chance = 10, crit_multiplier = 2):
         self.name = name
         self.health = health
+        self.max_health = max_health
         self.used_strong_last_turn = False
         self.normal_min = normal_min
         self.normal_max = normal_max
@@ -37,15 +38,15 @@ class Character:
         
 class Knight(Character):
      def __init__(self, name):
-        super().__init__(name, 120, normal_min=5, normal_max=10, strong_min=15, strong_max=25, crit_chance=20, crit_multiplier=2)
+        super().__init__(name, 120, 120, normal_min=5, normal_max=10, strong_min=15, strong_max=25, crit_chance=20, crit_multiplier=2)
         
 class Mage(Character):
     def __init__(self, name):     
-        super().__init__(name, 80, normal_min=8, normal_max=15, strong_min=20, strong_max=35, crit_chance=5, crit_multiplier=5)
+        super().__init__(name, 80, 80, normal_min=8, normal_max=15, strong_min=20, strong_max=35, crit_chance=5, crit_multiplier=5)
         
 class Archer(Character):
     def __init__(self, name):
-        super().__init__(name, 100, normal_min=7, normal_max=12, strong_min=18, strong_max=28, crit_chance=30, crit_multiplier=2.5)
+        super().__init__(name, 100, 100, normal_min=7, normal_max=12, strong_min=18, strong_max=28, crit_chance=30, crit_multiplier=2.5)
         
 
 def battle(player, enemy):
@@ -108,10 +109,32 @@ while True:
             print("Invalid class choice. Please choose again.")
 while True:
     wins += 1
+    if wins > 1:
+        env = random.choice(list(environments.keys()))
+        print(f"\nYou travel to the {env}.")
+    if player.health < 50:
+        print(f"\nYou take a moment to rest and recover some health.")
+        player.health += 30
+    if wins in [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]:
+             print(f"\n--- BOSS ROOM ---")
+             print(f"Current Level: {player_lvl} | EXP: {exp}/100")
+             print(f"\nA powerful boss appears!")
+             boss = Character("Boss", 200, 200, normal_min=10, normal_max=20, strong_min=30, strong_max=50, crit_chance=15, crit_multiplier=3)
+             battle(player, boss)
+             if player.health <= 0:
+                break
+             exp += 100
+             if exp >= 100:
+                player_lvl += 1
+                exp -= 100
+                print(f"\nYou rest and recover to full health.")
+                player.health = player.max_health
+                continue
+    
     print(f"\n--- Battle {wins} ---")
     print(f"Current Level: {player_lvl} | EXP: {exp}/100")
     enemy_name = random.choice(list(environments[env].keys()))
-    enemy = Character(enemy_name, environments[env][enemy_name])
+    enemy = Character(enemy_name, environments[env][enemy_name], environments[env][enemy_name])
     print(f"\nA wild {enemy.name} appears!")
     battle(player, enemy)
     exp += 50
@@ -120,3 +143,4 @@ while True:
      exp -= 100
     if player.health <= 0:
         break
+   
