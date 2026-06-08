@@ -33,12 +33,15 @@ class Character:
             print(f"Critical hit!")
         target.health -= damage
         self.used_strong_last_turn = True
-        print(f"{self.name} uses a strong attack on {target.name} for {damage} damage!")
+        if damage < 0:
+            print(f"{self.name} uses a strong attack on {target.name} but it heals them for {-damage} health!")
+        else:
+         print(f"{self.name} uses a strong attack on {target.name} for {damage} damage!")
         return True
         
 class Knight(Character):
      def __init__(self, name):
-        super().__init__(name, 120, 120, normal_min=5, normal_max=10, strong_min=15, strong_max=25, crit_chance=20, crit_multiplier=2)
+        super().__init__(name, 1200, 1200, normal_min=5, normal_max=10, strong_min=15, strong_max=25, crit_chance=20, crit_multiplier=3)
         
 class Mage(Character):
     def __init__(self, name):     
@@ -46,7 +49,7 @@ class Mage(Character):
         
 class Archer(Character):
     def __init__(self, name):
-        super().__init__(name, 100, 100, normal_min=7, normal_max=12, strong_min=18, strong_max=28, crit_chance=30, crit_multiplier=2.5)
+        super().__init__(name, 100, 100, normal_min=7, normal_max=12, strong_min=18, strong_max=28, crit_chance=30, crit_multiplier=4)
         
 
 def battle(player, enemy):
@@ -83,13 +86,38 @@ def battle(player, enemy):
           print(f"{player.name} has been defeated! Game Over!")
 
 environments = {
-    "Forest": {"Goblin": 80, "Orc": 100, "Skeleton": 60},
-    "Dungeon": {"Goblin": 60, "Orc": 120, "Skeleton": 80},
-    "Cave": {"Goblin": 70, "Orc": 90, "Skeleton": 100}
+    "The Forest of THE LOST ONES": {"Slime": 60, "Wolf": 100, "Bandits": 80},
+    "The Dungeon of THE DEAD": {"Zombie": 60, "Orc": 120, "Skeleton": 80},
+    "The Cave of THE HOLLOWS": {"Goblin": 70, "Ogre": 110, "Spider": 90}
 }
 
 env = random.choice(list(environments.keys()))
 print(f"You find yourself in a {env}.")
+bosses = {
+    "The Forest of THE LOST ONES": {"THE LOST PROTECTOR": {"max_health": 350, 
+                                                      "normal_min": 30,
+                                                      "normal_max": 50, 
+                                                      "strong_min": -30, 
+                                                      "strong_max": -10,
+                                                      "crit_chance": 1,
+                                                      "crit_multiplier": 2}},
+    "The Dungeon of THE DEAD": {"THE LICH KING": {"max_health": 250,
+                                                  "normal_min": 15,
+                                                  "normal_max": 25,
+                                                  "strong_min": 75,
+                                                  "strong_max": 100,
+                                                  "crit_chance": 0,
+                                                  "crit_multiplier": 3.5}},
+    "The Cave of THE HOLLOWS": {"THE HOLLOW HUMAN": {"max_health": 300,
+                                                     "normal_min": 0, 
+                                                     "normal_max": 0, 
+                                                     "strong_min": 10, 
+                                                     "strong_max": 15, 
+                                                     "crit_chance": 100, 
+                                                     "crit_multiplier": 10}}
+}
+
+
 player_name = input("Enter your character's name: ")
 wins = 0
 player_lvl = 1
@@ -111,36 +139,79 @@ while True:
     wins += 1
     if wins > 1:
         env = random.choice(list(environments.keys()))
+        boss_name = random.choice(list(bosses[env].keys()))
         print(f"\nYou travel to the {env}.")
     if player.health < 50:
         print(f"\nYou take a moment to rest and recover some health.")
         player.health += 30
-    if wins in [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]:
+    if wins in [5, 10, 15, 20, 25, 30, 35, 40, 45, 55, 60, 65, 70, 75, 80, 85, 90, 95]:
              print(f"\n--- BOSS ROOM ---")
              print(f"Current Level: {player_lvl} | EXP: {exp}/100")
              print(f"\nA powerful boss appears!")
-             boss = Character("Boss", 200, 200, normal_min=10, normal_max=20, strong_min=30, strong_max=50, crit_chance=15, crit_multiplier=3)
+             boss = Character(boss_name, bosses[env][boss_name]
+                              ["max_health"],
+                                bosses[env][boss_name]["max_health"],
+                                normal_min=bosses[env][boss_name]["normal_min"],
+                                normal_max=bosses[env][boss_name]["normal_max"],
+                                strong_min=bosses[env][boss_name]["strong_min"], 
+                                strong_max=bosses[env][boss_name]["strong_max"],
+                                crit_chance=bosses[env][boss_name]["crit_chance"],
+                                crit_multiplier=bosses[env][boss_name]["crit_multiplier"])
              battle(player, boss)
-             if player.health <= 0:
-                break
              exp += 100
              if exp >= 100:
-                player_lvl += 1
-                exp -= 100
+                 player_lvl += 1
+                 exp -= 100
+             print(f"\nYou rest and recover to full health.")
+             player.health = player.max_health          
+             continue           
+    elif wins == 50:
+             print(f"\n--- FINAL BOSS ---")
+             print(f"Current Level: {player_lvl} | EXP: {exp}/100")
+             print(f"\nThe Air Chills Around the Field as Something....SOMEONE POWERFUL Appears!")
+             print(f"\n THE FORGOTTEN ONE emerges from the shadows!") 
+             print(f"\nThe Forgotten One says: 'You dare enter my domain? You arent good enough to fight me yet!'")
+             print(f"\nThe Forgotten One leaves the field, but his shadow stays")
+             print(f"\n---THE STRONGEST SHADOW BOSS FIGHT---")
+             boss = Character("THE FORGOTTEN ONE(SHADOW FORM)", 500, 500, normal_min=50, normal_max=70, strong_min=100, strong_max=150, crit_chance=50, crit_multiplier=5)
+             battle(player, boss)
+             exp += 100
+             if exp >= 100:
+                 player_lvl += 1
+                 exp -= 100
+ 
+             print(f"\nYou rest and recover to full health.")
+             player.health = player.max_health          
+             continue           
+    elif wins == 100:
+                print(f"\n--- FINAL BOSS ---")
+                print(f"Current Level: {player_lvl} | EXP: {exp}/100")
+                print(f"\nThe Air Chills Around the Field as Something....SOMEONE POWERFUL Appears!")
+                print(f"\n THE FORGOTTEN ONE emerges from the shadows!")
+                print(f"\nThe Forgotten One says: 'You have proven yourself worthy, but can you defeat me?'")
+                print(f"\n---THE FORGOTTEN ONE BOSS FIGHT---")
+                boss = Character("THE FORGOTTEN ONE", 1000, 1000, normal_min=70, normal_max=100, strong_min=150, strong_max=250, crit_chance=75, crit_multiplier=5)
+                battle(player, boss)
+                exp += 100
+                if exp >= 100:
+                    player_lvl += 1
+                    exp -= 100
                 print(f"\nYou rest and recover to full health.")
                 player.health = player.max_health
                 continue
+    else:               
     
-    print(f"\n--- Battle {wins} ---")
+     print(f"\n--- Battle {wins} ---")
     print(f"Current Level: {player_lvl} | EXP: {exp}/100")
     enemy_name = random.choice(list(environments[env].keys()))
     enemy = Character(enemy_name, environments[env][enemy_name], environments[env][enemy_name])
     print(f"\nA wild {enemy.name} appears!")
     battle(player, enemy)
+
     exp += 50
     if exp>=100:
-     player_lvl += 1
-     exp -= 100
+         player_lvl += 1
+         exp -= 100
     if player.health <= 0:
-        break
+          break
    
